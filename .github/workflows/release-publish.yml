@@ -63,20 +63,11 @@ jobs:
         run: pnpm publish -r --publish-branch ${{github.event.pull_request.base.ref}} --access public --tag rc --no-git-checks
 
       - name: Cleanup rc tag
-        run: npm dist-tag rm n8n rc
+        run: npm dist-tag rm releaseme rc
         continue-on-error: true
 
       - id: set-release
         run: echo "release=${{ env.RELEASE }}" >> "$GITHUB_OUTPUT"
-
-  publish-to-docker-hub:
-    name: Publish to DockerHub
-    needs: [publish-to-npm]
-    uses: ./.github/workflows/docker-build-push.yml
-    with:
-      n8n_version: ${{ needs.publish-to-npm.outputs.release }}
-      release_type: stable
-    secrets: inherit
 
   create-github-release:
     name: Create a GitHub Release
@@ -94,24 +85,7 @@ jobs:
         uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1
         with:
           commit: ${{github.event.pull_request.base.ref}}
-          tag: 'n8n@${{ needs.publish-to-npm.outputs.release }}'
+          tag: 'mrrelease@${{ needs.publish-to-npm.outputs.release }}'
           prerelease: true
           makeLatest: false
           body: ${{github.event.pull_request.body}}
-
-  # merge-back-into-master:
-  #   name: Merge back into master
-  #   needs: [publish-to-npm, create-github-release]
-  #   if: ${{ github.event.pull_request.merged == true && !contains(github.event.pull_request.labels.*.name, 'release:patch') }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
-  # v4.1.1
-  #         fetch-depth: 0
-  #     - run: |
-  #         git checkout --track origin/master
-  #         git config user.name "github-actions[bot]"
-  #         git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-  #         git merge --ff n8n@${{ needs.publish-to-npm.outputs.release }}
-  #         git push origin master
-  #         git push origin :${{github.event.pull_request.base.ref}}
