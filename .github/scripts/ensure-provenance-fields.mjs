@@ -19,18 +19,17 @@ for (let { name, path, version, private: isPrivate } of packages) {
 		...JSON.parse(await readFile(packageFile, 'utf-8')),
 		// Add these fields to all published package.json files to ensure provenance checks pass
 		license: 'SEE LICENSE IN LICENSE.md',
-		homepage: 'https://n8n.io',
+		homepage: 'https://nikhilkuria.com',
 		author: {
-			name: 'Jan Oberhauser',
-			email: 'jan@n8n.io',
+			name: 'nikhil',
+			email: 'nikhil@kuria.com',
 		},
 		repository: {
 			type: 'git',
-			url: 'git+https://github.com/n8n-io/n8n.git',
+			url: 'git+https://github.com/nikhilkuriakose/mrrelease.git',
 		},
 	};
 
-	// Copy over LICENSE.md and LICENSE_EE.md into every published package, and ensure they get included in the published package
 	await Promise.all(
 		commonFiles.map(async (file) => {
 			await copyFile(resolve(baseDir, file), resolve(path, file));
