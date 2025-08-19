@@ -23,7 +23,7 @@ function generateExperimentVersion(currentVersion) {
 }
 
 const rootDir = process.cwd();
-const releaseType = process.env.RELEASE_TYPE;
+const releaseType = 'experiment';
 assert.match(releaseType, /^(patch|minor|major|experiment)$/, 'Invalid RELEASE_TYPE');
 
 // TODO: if releaseType is `auto` determine release type based on the changelog
