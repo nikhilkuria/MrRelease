@@ -57,7 +57,6 @@ jobs:
           node .github/scripts/trim-fe-packageJson.js
           node .github/scripts/ensure-provenance-fields.mjs
           cp README.md packages/cli/README.md
-          sed -i "s/default: 'dev'/default: 'stable'/g" packages/cli/dist/config/schema.js
 
       - name: Publish to NPM
         run: pnpm publish -r --publish-branch ${{github.event.pull_request.base.ref}} --access public --tag rc --no-git-checks
