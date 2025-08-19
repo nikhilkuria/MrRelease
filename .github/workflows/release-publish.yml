@@ -62,7 +62,7 @@ jobs:
         run: pnpm publish -r --publish-branch ${{github.event.pull_request.base.ref}} --access public --tag rc --no-git-checks
 
       - name: Cleanup rc tag
-        run: npm dist-tag rm releaseme rc
+        run: npm dist-tag rm mrrelease rc
         continue-on-error: true
 
       - id: set-release
