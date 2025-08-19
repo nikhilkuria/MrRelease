@@ -71,7 +71,7 @@ jobs:
 
   create-github-release:
     name: Create a GitHub Release
-    needs: [publish-to-npm, publish-to-docker-hub]
+    needs: [publish-to-npm]
     runs-on: ubuntu-latest
     if: github.event.pull_request.merged == true
     timeout-minutes: 5
