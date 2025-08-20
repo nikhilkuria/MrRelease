@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'n8n Release version to push to a channel (e.g., 1.2.3 or 1.2.3-beta.4)'
+        description: 'mrrelease2 Release version to push to a channel (e.g., 1.2.3 or 1.2.3-beta.4)'
         required: true
         type: string
 
@@ -57,16 +57,16 @@ jobs:
       - name: Add beta/next tags to NPM
         if: needs.validate-inputs.outputs.release_channel == 'beta'
         run: |
-          npm dist-tag add "n8n@${{ needs.validate-inputs.outputs.version }}" next
-          npm dist-tag add "n8n@${{ needs.validate-inputs.outputs.version }}" beta
+          npm dist-tag add "mrrelease2@${{ needs.validate-inputs.outputs.version }}" next
+          npm dist-tag add "mrrelease2@${{ needs.validate-inputs.outputs.version }}" beta
 
       - name: Add latest/stable tags to NPM
         if: needs.validate-inputs.outputs.release_channel == 'stable'
         run: |
-          npm dist-tag add "n8n@${{ needs.validate-inputs.outputs.version }}" latest
-          npm dist-tag add "n8n@${{ needs.validate-inputs.outputs.version }}" stable
+          npm dist-tag add "mrrelease2@${{ needs.validate-inputs.outputs.version }}" latest
+          npm dist-tag add "mrrelease2@${{ needs.validate-inputs.outputs.version }}" stable
 
       - name: Add experiment tag to NPM
         if: needs.validate-inputs.outputs.release_channel == 'experiment'
         run: |
-          npm dist-tag add "n8n@${{ needs.validate-inputs.outputs.version }}" experiment
+          npm dist-tag add "mrrelease2@${{ needs.validate-inputs.outputs.version }}" experiment
