@@ -49,7 +49,7 @@ assert.ok(
 );
 
 // Keep the monorepo version up to date with the released version
-packageMap['monorepo-root'].version = packageMap['mrrelease'].version;
+packageMap['monorepo-root'].version = packageMap['mrrelease2'].version;
 
 for (const packageName in packageMap) {
 	const { path, version, isDirty } = packageMap[packageName];
@@ -69,4 +69,4 @@ for (const packageName in packageMap) {
 	await writeFile(packageFile, JSON.stringify(packageJson, null, 2) + '\n');
 }
 
-console.log(packageMap['mrrelease'].nextVersion);
+console.log(packageMap['mrrelease2'].nextVersion);
