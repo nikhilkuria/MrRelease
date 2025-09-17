@@ -81,7 +81,8 @@ jobs:
     name: Call Success URL
     needs: [create-release-pr]
     runs-on: ubuntu-latest
-    if: needs.create-release-pr.result == 'success' || needs.create-release-pr.result == 'skipped'
+    if: always()
+    # if: needs.create-release-pr.result == 'success' || needs.create-release-pr.result == 'skipped'
     steps:
       - name: Call Success URL
         env:
