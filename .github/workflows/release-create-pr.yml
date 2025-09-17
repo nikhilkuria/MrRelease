@@ -6,7 +6,7 @@ on:
       base-branch:
         description: 'The branch, tag, or commit to create this release PR from.'
         required: true
-        default: 'master'
+        default: 'main'
       resumeUrl:
         description: 'URL to call after the build is successful'
         required: false
