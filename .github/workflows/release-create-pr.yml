@@ -87,8 +87,21 @@ jobs:
       - name: Call Success URL
         env:
           SUCCESS_URL: ${{ github.event.inputs.resumeUrl }}
+          PR_URL: ${{ needs.create-release-pr.outputs.pull-request-url }}
+          PR_NUMBER: ${{ needs.create-release-pr.outputs.pull-request-number }}
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.resumeUrl != '' }}
         run: |
           echo "Calling success URL: ${{ env.SUCCESS_URL }}"
-          curl -v "${{ env.SUCCESS_URL }}" || echo "Failed to call success URL"
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d '{
+              "status": "${{ needs.create-release-pr.result }}",
+              "release_version": "${{ env.NEXT_RELEASE }}",
+              "release_type": "${{ github.event.inputs.release-type }}",
+              "pr_url": "${{ env.PR_URL }}",
+              "pr_number": "${{ env.PR_NUMBER }}",
+              "workflow_run_id": "${{ github.run_id }}",
+              "repository": "${{ github.repository }}"
+            }' \
+            "${{ env.SUCCESS_URL }}" || echo "Failed to call success URL"
         shell: bash
