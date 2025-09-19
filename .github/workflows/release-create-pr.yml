@@ -77,18 +77,18 @@ jobs:
           labels: release,release:${{ github.event.inputs.release-type }}
           title: ':rocket: Release ${{ env.NEXT_RELEASE }}'
           body-path: 'CHANGELOG-${{ env.NEXT_RELEASE }}.md'
-  # call-success-url:
-  #   name: Call Success URL
-  #   needs: [create-release-pr]
-  #   runs-on: ubuntu-latest
-  #   if: always()
-  #   # if: needs.create-release-pr.result == 'success' || needs.create-release-pr.result == 'skipped'
-  #   steps:
-  #     - name: Call Success URL
-  #       env:
-  #         SUCCESS_URL: ${{ github.event.inputs.resumeUrl }}
-  #       if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.resumeUrl != '' }}
-  #       run: |
-  #         echo "Calling success URL: ${{ env.SUCCESS_URL }}"
-  #         curl -v "${{ env.SUCCESS_URL }}" || echo "Failed to call success URL"
-  #       shell: bash
+  call-success-url:
+    name: Call Success URL
+    needs: [create-release-pr]
+    runs-on: ubuntu-latest
+    if: always()
+    # if: needs.create-release-pr.result == 'success' || needs.create-release-pr.result == 'skipped'
+    steps:
+      - name: Call Success URL
+        env:
+          SUCCESS_URL: ${{ github.event.inputs.resumeUrl }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.resumeUrl != '' }}
+        run: |
+          echo "Calling success URL: ${{ env.SUCCESS_URL }}"
+          curl -v "${{ env.SUCCESS_URL }}" || echo "Failed to call success URL"
+        shell: bash
